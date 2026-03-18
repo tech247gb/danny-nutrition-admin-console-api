@@ -5,6 +5,10 @@ const cors = require("cors");
 const config = require("./config"); // Assuming your URI logic is here
 const routes = require("./routes");
 const documentRoutes = require("./routes/documentRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
+const userRoutes = require("./routes/usersRoutes");
+const agentsRoutes = require("./routes/agentsRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 const port = process.env.PORT || 3001; // 2. Use logical OR (||)
@@ -16,6 +20,10 @@ app.use(express.json());
 // --- Routes ---
 app.use("/api", routes); // Best practice: prefix your routes
 app.use("/api/documents", documentRoutes);
+app.use("/api/notification", notificationRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/agents", agentsRoutes);
+app.use("/api/auth", authRoutes);
 
 // --- Database Connection ---
 // 3. Use a function to handle connection logic and errors

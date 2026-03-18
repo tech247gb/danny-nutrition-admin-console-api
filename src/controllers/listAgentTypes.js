@@ -1,18 +1,22 @@
-const AgentType = require('../schemas/agent_types');
+const { listAgentTypesService } = require('../services/agentTypes.service');
+
 
 const listAgentTypes = async (req, res) => {
     try {
-        const agentTypes = await AgentType.find({}, {
-            name: 1,
-            type: 1
-        });
+        const agentTypes = await listAgentTypesService();
+
         return res.status(200).json({
             success: true,
-            agentTypes: agentTypes
+            agentTypes
         });
+
     } catch (error) {
         console.error("listAgentTypes error:", error);
-        return res.status(500).json({ message: "Internal server error" });
+
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Internal server error"
+        });
     }
 };
 

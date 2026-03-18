@@ -2,7 +2,7 @@ const User = require('../schemas/users');
 const DynamicFieldConfig = require('../schemas/dynamic-field-config');
 const AgentType = require('../schemas/agent_types');
 const Notification = require('../schemas/notifications');
-// const NotificationLog = require('../schemas/notification-logs');
+const NotificationLog = require('../schemas/notification_logs');
 const ShortTermConversationContext = require('../schemas/short-term-conversation-context');
 const mongoose = require('mongoose');
 
@@ -30,7 +30,7 @@ function prepareDynamicValue(value, type) {
           ? value.split(",").map(v => v.trim()).filter(Boolean)
           : [];
     case "number":
-      // ✅ Fixed from n8n: isNaN check was inverted — return null for invalid
+      // Fixed from n8n: isNaN check was inverted — return null for invalid
       return isNaN(value) ? null : Number(value);
     default:
       return value;
@@ -48,7 +48,7 @@ function sanitizeDynamicFields(input_fields, dynamic_fields) {
     const currentValueType = field_type_map[currentFieldType.field_type] ?? null;
     if (!currentValueType) return;
 
-    // ✅ Fixed from n8n: was passing currentValueType.type (undefined)
+    // Fixed from n8n: was passing currentValueType.type (undefined)
     // currentValueType is already a string like "string", "number", "array"
     dynamicFields[field_key] = prepareDynamicValue(input_fields[field_key], currentValueType);
   });
@@ -260,29 +260,29 @@ const createUpdateUser = async (req, res) => {
       });
 
       // Node: "Notification Trigger Exist?"
-      // if (notificationTrigger) {
+      if (notificationTrigger) {
 
-      //   // Node: "Prepare Join Notification"
-      //   const notificationLog = {
-      //     client_id:         clientId,
-      //     notification_id:   notificationTrigger._id,
-      //     user_id:           newUser._id,
-      //     templateId:        notificationTrigger.templateId,
-      //     has_parameters:    notificationTrigger.has_parameters,
-      //     parameters_config: notificationTrigger.parameters_config ?? null,
-      //     sender_id:         notificationTrigger.sender_id,
-      //     channel:           notificationTrigger.channel,
-      //     status:            "pending",
-      //     sent_at:           null,
-      //     last_error:        null,
-      //     created_at:        new Date(),
-      //     updated_at:        new Date(),
-      //     try_count:         0
-      //   };
+        // Node: "Prepare Join Notification"
+        const notificationLog = {
+          client_id: clientId,
+          notification_id: notificationTrigger._id,
+          user_id: newUser._id,
+          templateId: notificationTrigger.templateId,
+          has_parameters: notificationTrigger.has_parameters,
+          parameters_config: notificationTrigger.parameters_config ?? null,
+          sender_id: notificationTrigger.sender_id,
+          channel: notificationTrigger.channel,
+          status: "pending",
+          sent_at: null,
+          last_error: null,
+          created_at: new Date(),
+          updated_at: new Date(),
+          try_count: 0
+        };
 
-      //   // Node: "Schedule Notification"
-      //   await NotificationLog.create(notificationLog);
-      // }
+        // Node: "Schedule Notification"
+        await NotificationLog.create(notificationLog);
+      }
 
       // Node: "Creation Response" → "Respond to Webhook"
       return res.status(200).json({
