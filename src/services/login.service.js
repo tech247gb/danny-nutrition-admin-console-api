@@ -39,11 +39,19 @@ const loginService = async ({ username, password }) => {
         process.env.JWT_SECRET
     );
 
+    const formattedUser = {
+        id: admin._id,
+        username: admin.username,
+        name: admin.name,
+        config: admin.config,
+        whitelabel: admin.whitelabel
+    };
+
 
     return {
         success: true,
         status: 200,
-        admin,
+        admin: formattedUser,
         token
     };
 };
