@@ -1,8 +1,8 @@
-require("dotenv").config(); // 1. Load this FIRST
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const config = require("./config"); // Assuming your URI logic is here
+const config = require("./config");
 const routes = require("./routes");
 const documentRoutes = require("./routes/documentRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
@@ -11,14 +11,14 @@ const agentsRoutes = require("./routes/agentsRoutes");
 const authRoutes = require("./routes/authRoutes");
 
 const app = express();
-const port = process.env.PORT || 3001; // 2. Use logical OR (||)
+const port = process.env.PORT || 3001;
 
 // --- Middlewares ---
 app.use(cors());
 app.use(express.json());
 
 // --- Routes ---
-app.use("/api", routes); // Best practice: prefix your routes
+// app.use("/api", routes); 
 app.use("/api/documents", documentRoutes);
 app.use("/api/notification", notificationRoutes);
 app.use("/api/users", userRoutes);
@@ -26,7 +26,6 @@ app.use("/api/agents", agentsRoutes);
 app.use("/api/auth", authRoutes);
 
 // --- Database Connection ---
-// 3. Use a function to handle connection logic and errors
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(config.mongo.uri);

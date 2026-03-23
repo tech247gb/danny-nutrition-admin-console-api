@@ -2,7 +2,7 @@ const DocumentStorage = require("../schemas/documentStorage");
 
 const PAGE_SIZE = 10;
 
-const getDocuments = async (clientId, { offset = 0, search } = {}) => {
+const getDocumentsService = async (clientId, { offset = 0, search } = {}) => {
   const skip = Number(offset) * PAGE_SIZE;
 
   const matchStage = { client_id: clientId };
@@ -40,4 +40,4 @@ const getDocuments = async (clientId, { offset = 0, search } = {}) => {
   };
 };
 
-module.exports = { getDocuments };
+module.exports = { getDocumentsService };

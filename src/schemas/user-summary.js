@@ -4,7 +4,9 @@ const userSummarySchema = new mongoose.Schema({
 
     user_pk: String,
     summary: String,
-
+    userId: String,
+    checkInList: Object,
+    startDate: String
 
 }, {
     collection: "user-summary",

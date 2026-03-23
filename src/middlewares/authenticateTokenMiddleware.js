@@ -17,9 +17,9 @@ const authenticateToken = (req, res, next) => {
     if (err) {
       return res.status(403).json({ message: 'Invalid or expired token' });
     }
-    console.log(user, "user");
+
     req.jwt_payload = user;
-    console.log(req.jwt_payload, "req.jwt_payload");
+
     next();
   });
 };

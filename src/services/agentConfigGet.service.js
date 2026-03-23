@@ -6,8 +6,15 @@ const getAgentConfigService = async (clientId, configType, agent_types) => {
 
     let agents = [];
 
-    if (agent_types.length > 0) {
-        agents = agent_types.map(type => ({ type, _id: null, name: null }));
+    if (agent_types && agent_types.length > 0) {
+        agents = agent_types.map(item => {
+            const isObject = typeof item === 'object' && item !== null;
+            return {
+                type: isObject ? item.type : item,
+                _id: isObject ? (item.agent_id || item._id) : null,
+                name: isObject ? item.name : null
+            };
+        });
 
     } else {
         const agentResult = await Agent.find(
@@ -22,7 +29,7 @@ const getAgentConfigService = async (clientId, configType, agent_types) => {
     const agentTypeResult = await AgentType.find(
         { type: { $in: resolved_agent_types } },
         { [`config.${configType}.fields`]: 1, type: 1, _id: 0 }
-    );
+    ).lean();
 
     const configMap = {};
     for (const agentType of agentTypeResult) {

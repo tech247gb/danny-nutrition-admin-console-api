@@ -6,7 +6,7 @@ const getDocuments = async (req, res) => {
         const clientId = req.jwt_payload.id;
         const { offset = 0, search } = req.query;
 
-        const result = await documentStorageService.getDocuments(clientId, { offset, search });
+        const result = await documentStorageService.getDocumentsService(clientId, { offset, search });
 
         res.json([{
             totalDocuments: result.total,

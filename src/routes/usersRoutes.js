@@ -5,11 +5,13 @@ const listUsers = require('../controllers/listUsers');
 const listAllUsers = require('../controllers/listAllUsers');
 const userConfig = require('../controllers/userConfig');
 const deleteUser = require('../controllers/deleteUser');
+const addUpdateUser = require('../controllers/addUpdateUser');
 
 router.get('/list-users', authenticateToken, listUsers);
 router.get("/list-all-users", authenticateToken, listAllUsers);
 router.get("/get-user-config", authenticateToken, userConfig);
 router.post("/delete-user", authenticateToken, deleteUser);
+router.post("/create-update-user", authenticateToken, addUpdateUser);
 
 
 module.exports = router;

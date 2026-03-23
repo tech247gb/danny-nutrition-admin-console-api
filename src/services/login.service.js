@@ -43,16 +43,8 @@ const loginService = async ({ username, password }) => {
     return {
         success: true,
         status: 200,
-        data: {
-            user: {
-                id: admin._id,
-                username: admin.username,
-                name: admin.name,
-                config: admin.config,
-                whitelabel: admin.whitelabel
-            },
-            token
-        }
+        admin,
+        token
     };
 };
 

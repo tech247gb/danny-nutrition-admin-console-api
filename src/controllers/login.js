@@ -22,7 +22,8 @@ const login = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            ...result.data
+            user: result.admin,
+            token: result.token
         });
 
     } catch (error) {
